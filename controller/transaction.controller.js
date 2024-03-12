@@ -30,9 +30,7 @@ const transactionController = {
         try {
             const { id } = req.params
             const [rows, fields] = await pool.query("select * from transactions where id = ?", [id])
-            res.json({
-                data: rows
-            })
+            res.json(rows)
         } catch (error) {
             console.log(error)
             res.json({
@@ -44,9 +42,7 @@ const transactionController = {
         try {
             const { id } = req.params
             const [rows, fields] = await pool.query("select * from transactions where bucket_id = ?", [id])
-            res.json({
-                data: rows
-            })
+            res.json(rows)
         } catch (error) {
             console.log(error)
             res.json({
