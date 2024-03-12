@@ -41,7 +41,7 @@ const transactionController = {
     getByBucketId: async (req, res) => {
         try {
             const { id } = req.params
-            const [rows, fields] = await pool.query("select * from transactions where bucket_id = ?", [id])
+            const [rows, fields] = await pool.query("select * from transactions where bucket_id = ? order by txn_date desc, id desc", [id])
             res.json(rows)
         } catch (error) {
             console.log(error)
