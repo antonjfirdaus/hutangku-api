@@ -6,7 +6,7 @@ const transactionController = {
         try {
             const { bucket_id, txn_date, txn_amount, description } = req.body;
             const sql = 'insert into transactions (bucket_id, txn_date, txn_amount, description) values(?, ?, ?, ?)';
-            const [rows, fields] = await Bucket.create(sql, [bucket_id, txn_date, txn_amount, description]);
+            const [rows, fields] = await pool.query(sql, [bucket_id, txn_date, txn_amount, description]);
             if (rows.affectedRows) {
                 res.status(201).json({ message: "Ok" });
             }else{
