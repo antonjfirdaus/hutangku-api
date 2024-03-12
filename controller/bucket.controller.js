@@ -30,7 +30,7 @@ const bucketController = {
 
     getById: async (req, res) => {
         try {
-            const [rows, fields] = await pool.query("select * from buckets where buckets = ?", [req.params.id])
+            const [rows, fields] = await pool.query("select * from buckets where id = ?", [req.params.id])
             res.json(rows)
         } catch (error) {
             console.log(error)
