@@ -11,6 +11,7 @@ app.use(cors());
 const bucketRouter = require('./routes/bucket.router')
 const transactionRouter = require('./routes/transaction.router')
 
+app.get("/", (req, res) => res.send("Hutangku api is running"));
 app.use("/bucket", bucketRouter)
 app.use("/transaction", transactionRouter)
 
