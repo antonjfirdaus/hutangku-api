@@ -6,7 +6,7 @@ const bucketController = {
         try {
             const { bucket_name, bucket_type } = req.body;
             const sql = 'insert into buckets(bucket_name, bucket_type) values(?, ?)';
-            const [rows, fields] = await Bucket.create(sql, [bucket_name, bucket_type]);
+            const [rows, fields] = await pool.query(sql, [bucket_name, bucket_type]);
             if (rows.affectedRows) {
                 res.status(201).json({ message: "Ok" });
             }else{
