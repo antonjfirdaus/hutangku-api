@@ -29,7 +29,7 @@ const transactionController = {
     getById: async (req, res) => {
         try {
             const { id } = req.params
-            const [rows, fields] = await pool.query("select * from transactions where id = ?", [id])
+            const [rows, fields] = await pool.query("select * from transactions where id = ? order by id desc", [id])
             res.json(rows)
         } catch (error) {
             console.log(error)
@@ -41,15 +41,26 @@ const transactionController = {
     getByBucketId: async (req, res) => {
         try {
             const { id } = req.params
-            const [rows, fields] = await pool.query("select * from transactions where bucket_id = ? order by txn_date desc, id desc", [id])
+            const [rows, fields] = await pool.query("select id, bucket_id, txn_date as date, FORMAT(txn_amount,2) as amount, description from transactions where bucket_id = ? order by id desc", [id])
             res.json(rows)
         } catch (error) {
             console.log(error)
-            res.json({
-                status: "error"
-            })
+            res.json({status: "error"})
         }
-    }
+    },
+    deleteById: async (req, res) => {
+        try {
+            const [rows, fields] = await pool.query("delete from transactions where id = ?", [req.params.id])
+            if (rows.affectedRows) {
+                res.status(201).json({ message: "Ok" });
+            }else{
+                res.status(500).json({ message: 'Failed to delete bucket transaction.' });
+            }
+        } catch (error) {
+            console.log(error)
+            res.json({status: "error"})
+        }
+    },
 }
 
 module.exports = transactionController
