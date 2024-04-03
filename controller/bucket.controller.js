@@ -44,7 +44,7 @@ const bucketController = {
 
     getByType: async (req, res) => {
         try {
-            const [rows, fields] = await pool.query("select b.id, b.bucket_name, b.bucket_type, coalesce(sum(least(txn.txn_amount,0)),0) as amount_total, coalesce(sum(greatest(txn.txn_amount,0)),0) as amount_bayar, coalesce(sum(txn.txn_amount),0) as amount_sisa from buckets b left join transactions txn on txn.bucket_id = b.id where b.bucket_type = ? group by b.id", [req.params.type])
+            const [rows, fields] = await pool.query("select b.id, b.bucket_name, b.bucket_type, format(coalesce(sum(least(txn.txn_amount,0)),0),0) as amount_total, format(coalesce(sum(greatest(txn.txn_amount,0)),0),0) as amount_bayar, format(coalesce(sum(txn.txn_amount),0),0) as amount_sisa from buckets b left join transactions txn on txn.bucket_id = b.id where b.bucket_type = ? group by b.id", [req.params.type])
             res.json(rows)
         } catch (error) {
             console.log(error)
